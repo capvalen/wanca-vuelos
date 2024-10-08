@@ -1,0 +1,8 @@
+.form-control, .form-select{
+	margin-bottom:20px;
+}
+.puntero{cursor: pointer;}
+label>small{
+	font-weight: bold;
+	opacity: 0.8;
+}

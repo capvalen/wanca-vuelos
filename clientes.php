@@ -8,7 +8,7 @@
 		<section class="col col-md-3 p-4 " id="menu">
 			<?php include 'menu.php'; ?>
 		</section>
-		<section class="col col-md-9 container mb-3 p-4 pt-3 border-start">
+		<article class="col col-md-9 container mb-3 p-4 pt-3 border-start">
 			<?php $titulo_pagina = "Sección Clientes";
 			include 'menu_usuario.php'; ?>
 			
@@ -27,11 +27,50 @@
 				</div>
 			</div>
 			<div class="d-flex justify-content-between">
-				<a href="cliente-nuevo.php" class="btn btn-sm btn-outline-success"><i class="bi bi-asterisk"></i> Nuevo cliente</a>
+				<div class="gap-2">
+					<a href="cliente-nuevo.php" class="btn btn-sm btn-outline-success me-1"><i class="bi bi-person-circle"></i> Nuevo cliente</a>
+					<a href="cliente-paquete-nuevo.php" class="btn btn-sm btn-outline-success"><i class="bi bi-asterisk"></i> Nuevo paquete de cliente</a>
+				</div>
 				<button class="btn btn-sm btn-outline-secondary"><i class="bi bi-search"></i> Filtrar</button>
 			</div>
 
+			<section class="mt-3" id="resultados">
+				<p>Los 50 últimos clientes registrados:</p>
+				<table class="table table-hover">
+					<thead>
+						<th>N°</th>
+						<th>Cliente</th>
+						<th>@</th>
+					</thead>
+					<tbody>
+						<tr>
+							<td>1</td>
+							<td><a href="cliente-perfil.php?id=2" class="text-decoration-none">Juan Pérez</a></td>
+							<td>
+								<button class="btn btn-outline-danger me-1"><i class="bi bi-eraser"></i> Eliminar</button>
+							</td>
+						</tr>
+						<tr>
+							<td>2</td>
+							<td><a href="cliente-perfil.php?id=2" class="text-decoration-none">María García</a></td>
+							<td>
+								<button class="btn btn-outline-danger me-1"><i class="bi bi-eraser"></i> Eliminar</button>
+							</td>
+						</tr>
+						<tr>
+							<td>3</td>
+							<td><a href="cliente-perfil.php?id=2" class="text-decoration-none">Carlos López</a></td>
+							<td class="">							
+								<button class="btn btn-outline-danger me-1"><i class="bi bi-eraser"></i> Eliminar</button>
+							</td>
+						</tr>
+					</tbody>
+				</table>
 		</section>
+
+		</article>
+
+		
 	</main>
 	
 	<?php include 'footer.php'; ?>
