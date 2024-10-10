@@ -29,7 +29,6 @@
 			<div class="d-flex justify-content-between">
 				<div class="gap-2">
 					<a href="cliente-nuevo.php" class="btn btn-sm btn-outline-success me-1"><i class="bi bi-person-circle"></i> Nuevo cliente</a>
-					<a href="cliente-paquete-nuevo.php" class="btn btn-sm btn-outline-success"><i class="bi bi-asterisk"></i> Nuevo paquete de cliente</a>
 				</div>
 				<button class="btn btn-sm btn-outline-secondary"><i class="bi bi-search"></i> Filtrar</button>
 			</div>
@@ -47,6 +46,7 @@
 							<td>1</td>
 							<td><a href="cliente-perfil.php?id=2" class="text-decoration-none">Juan Pérez</a></td>
 							<td>
+								<a href="cliente-paquete-nuevo.php?id=90" class="btn btn-sm btn-outline-success me-1"><i class="bi bi-asterisk"></i> Nuevo paquete</a>
 								<button class="btn btn-outline-danger me-1"><i class="bi bi-eraser"></i> Eliminar</button>
 							</td>
 						</tr>
@@ -54,13 +54,15 @@
 							<td>2</td>
 							<td><a href="cliente-perfil.php?id=2" class="text-decoration-none">María García</a></td>
 							<td>
+								<a href="cliente-paquete-nuevo.php?id=90" class="btn btn-sm btn-outline-success me-1"><i class="bi bi-asterisk"></i> Nuevo paquete</a>
 								<button class="btn btn-outline-danger me-1"><i class="bi bi-eraser"></i> Eliminar</button>
 							</td>
 						</tr>
 						<tr>
 							<td>3</td>
 							<td><a href="cliente-perfil.php?id=2" class="text-decoration-none">Carlos López</a></td>
-							<td class="">							
+							<td class="">
+								<a href="cliente-paquete-nuevo.php?id=90" class="btn btn-sm btn-outline-success me-1"><i class="bi bi-asterisk"></i> Nuevo paquete</a>
 								<button class="btn btn-outline-danger me-1"><i class="bi bi-eraser"></i> Eliminar</button>
 							</td>
 						</tr>

@@ -11,6 +11,7 @@
 		<section class="col col-md-9 container mb-3 p-4 pt-3 border-start">
 			<?php  $titulo_pagina = "Sección participantes";
 			include 'menu_usuario.php'; ?>
+			<a href="participante-nuevo.php" class="btn btn-outline-success btn-sm"><i class="bi bi-asterisk"></i> Crear nuevo participante</a>
 			<p>Los últimos 50 participantes</p>
 			<table class="table table-hover">
 				<thead>
@@ -31,7 +32,7 @@
 								<p>Pedro García</p>
 							</td>
 							<td>juan.garcia@example.com</td>
-							<td><button class="btn btn-outline-danger btn-sm"><i class="bi bi-x-lg"></i></button></td>
+							<td><button class="btn btn-outline-danger btn-sm"><i class="bi bi-x"></i></button></td>
 					</tr>
 					<tr>
 							<td>2</td>
@@ -39,7 +40,7 @@
 							<td>87654321</td>
 							<td><p>Laura Pérez</p> <p>Carlos Martínez</p></td>
 							<td>ana.martinez@example.com</td>
-							<td><button class="btn btn-outline-danger btn-sm"><i class="bi bi-x-lg"></i></button></td>
+							<td><button class="btn btn-outline-danger btn-sm"><i class="bi bi-x"></i></button></td>
 					</tr>
 					<tr>
 							<td>3</td>
@@ -47,7 +48,7 @@
 							<td>11223344</td>
 							<td><p>Elena Ruiz</p> <p>Miguel Fernández</p></td>
 							<td>luis.fernandez@example.com</td>
-							<td><button class="btn btn-outline-danger btn-sm"><i class="bi bi-x-lg"></i></button></td>
+							<td><button class="btn btn-outline-danger btn-sm"><i class="bi bi-x"></i></button></td>
 					</tr>
 					<tr>
 							<td>4</td>
@@ -55,7 +56,7 @@
 							<td>44332211</td>
 							<td><p>Isabel Gómez</p> <p>José Rodríguez</p></td>
 							<td>maria.rodriguez@example.com</td>
-							<td><button class="btn btn-outline-danger btn-sm"><i class="bi bi-x-lg"></i></button></td>
+							<td><button class="btn btn-outline-danger btn-sm"><i class="bi bi-x"></i></button></td>
 					</tr>
 				</tbody>
 

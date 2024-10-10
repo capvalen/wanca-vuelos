@@ -237,7 +237,7 @@
 					<p class="fs-5">Total a pagar final: <strong>S/ 6 000.00</strong></p>
 				</div>
 				<div class="col-6 d-grid">
-					<button class="btn btn-success"><i class="bi bi-floppy"></i> Guardar cliente</button>
+					<button class="btn btn-success"><i class="bi bi-floppy"></i> Guardar paquete</button>
 				</div>
 
 			</div>

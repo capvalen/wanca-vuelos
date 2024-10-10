@@ -1,19 +1,25 @@
 <?php $url_completa = $_SERVER['REQUEST_URI'];
-$pagina = basename($url_completa, '.php');
+$componentes_url = parse_url($url_completa);
+// Extraemos el camino (path) de la URL
+$camino = $componentes_url['path'];
+$pagina = basename($camino, '.php');
 ?>
 <div class="mx-auto w-75 mb-3"><img src="img/logo.jpg" class="img-fluid"></div>
 <div class="list-group list-group-flush">
 	<a href="principal.php" type="button" class="list-group-item list-group-item-action <?= $pagina=='principal'? 'active':'' ?>" aria-current="true">
 		<i class="bi bi-caret-right"></i> <span class="icono"><i class="bi bi-house"></i> Inicio</span> 
 	</a>
-	<a href="clientes.php" type="button" class="list-group-item list-group-item-action">
+	<a href="clientes.php" type="button" class="list-group-item list-group-item-action <?= in_array($pagina, array('clientes', 'cliente-perfil', 'cliente-nuevo', 'cliente-paquete-nuevo')) ? 'active':'' ?>">
 		<i class="bi bi-caret-right"></i> <span class="icono"><i class="bi bi-file-medical"></i> Clientes</span> 
 	</a>
-	<a href="aportaciones.php" type="button" class="list-group-item list-group-item-action">
+	<a href="aportaciones.php" type="button" class="list-group-item list-group-item-action <?= in_array($pagina, array('aportaciones', 'aportacion-paquete', )) ? 'active':'' ?>">
 		<i class="bi bi-caret-right"></i> <span class="icono"><i class="bi bi-piggy-bank"></i> Aportaciones</span> 
 	</a>
-	<a href="participantes.php" type="button" class="list-group-item list-group-item-action">
+	<a href="participantes.php" type="button" class="list-group-item list-group-item-action <?= in_array($pagina, array('participantes', 'participante-perfil', 'participante-nuevo')) ? 'active':'' ?>">
 		<i class="bi bi-caret-right"></i> <span class="icono"><i class="bi bi-people"></i> Participantes</span> 
+	</a>
+	<a href="liberados.php" type="button" class="list-group-item list-group-item-action <?= in_array($pagina, array('liberados', 'liberado-perfil', 'liberado-nuevo')) ? 'active':'' ?>">
+		<i class="bi bi-caret-right"></i> <span class="icono"><i class="bi bi-people"></i> Liberados</span> 
 	</a>
 	<a href="documentacion.php" type="button" class="list-group-item list-group-item-action">
 		<i class="bi bi-caret-right"></i> <span class="icono"><i class="bi bi-file-earmark-break"></i> Documentación</span> 
@@ -24,7 +30,7 @@ $pagina = basename($url_completa, '.php');
 	<a href="reportes.php" type="button" class="list-group-item list-group-item-action">
 		<i class="bi bi-caret-right"></i> <span class="icono"><i class="bi bi-bag"></i> Reportes</span> 
 	</a>
-	<a href="proveedores.php" type="button" class="list-group-item list-group-item-action">
+	<a href="proveedores.php" type="button" class="list-group-item list-group-item-action <?= in_array($pagina, array('proveedores', 'proveedor-nuevo')) ? 'active':'' ?>">
 		<i class="bi bi-caret-right"></i> <span class="icono"><i class="bi bi-airplane"></i> Proveedores</span> 
 	</a>
 	<a href="caja.php" type="button" class="list-group-item list-group-item-action">
