@@ -154,7 +154,7 @@
 						<p>Nery C.</p>
 					</div>
 					<div class="col-md-4" v-show="paquete.aCuenta">
-						<label for="">Decha de depósito</label>
+						<label for="">Fecha de depósito</label>
 						<input type="date" class="form-control">
 					</div>
 					<div class="col-md-4" v-show="paquete.aCuenta">
