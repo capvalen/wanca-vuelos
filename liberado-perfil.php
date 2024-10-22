@@ -82,6 +82,36 @@
 			<div class="d-flex justify-content-center">
 				<button class="btn btn-primary btn-lg"><i class="bi bi-arrow-clockwise"></i> Actualizar datos</button>
 			</div>
+
+			<div class="card my-2">
+				<div class="card-body">
+					<p><strong>Lista de Tours asociados al liberado</strong></p>
+					<table class="table table-hover">
+						<thead>
+							<th>N°</th>
+							<th>Tour</th>
+							<th>Entidad</th>
+							<th>Fecha</th>
+						</thead>
+						<tbody>
+							<tr>
+								<td>1</td>
+								<td>Visita guiada a museo</td>
+								<td>Colegio Santa Rosa</td>
+								<td>14/05/2025</td>
+							</tr>
+							<tr>
+								<td>2</td>
+								<td>Tour selvático</td>
+								<td>Comitiva San Jose</td>
+								<td>06/01/2024</td>
+								</tr>
+						</tbody>
+
+					</table>
+				</div>
+			</div>
+
 		</section>
 	</main>
 	

@@ -38,12 +38,14 @@
 				<table class="table table-hover">
 					<thead>
 						<th>N°</th>
+						<th>DNI/RUC</th>
 						<th>Cliente</th>
 						<th>@</th>
 					</thead>
 					<tbody>
 						<tr>
 							<td>1</td>
+							<td>60234884</td>
 							<td><a href="cliente-perfil.php?id=2" class="text-decoration-none">Juan Pérez</a></td>
 							<td>
 								<a href="cliente-paquete-nuevo.php?id=90" class="btn btn-sm btn-outline-success me-1"><i class="bi bi-asterisk"></i> Nuevo paquete</a>
@@ -52,7 +54,8 @@
 						</tr>
 						<tr>
 							<td>2</td>
-							<td><a href="cliente-perfil.php?id=2" class="text-decoration-none">María García</a></td>
+							<td>102060234884</td>
+							<td><a href="cliente-perfil.php?id=2" class="text-decoration-none">Banco de Crédito</a></td>
 							<td>
 								<a href="cliente-paquete-nuevo.php?id=90" class="btn btn-sm btn-outline-success me-1"><i class="bi bi-asterisk"></i> Nuevo paquete</a>
 								<button class="btn btn-outline-danger me-1"><i class="bi bi-eraser"></i> Eliminar</button>
@@ -60,6 +63,7 @@
 						</tr>
 						<tr>
 							<td>3</td>
+							<td>14256300</td>
 							<td><a href="cliente-perfil.php?id=2" class="text-decoration-none">Carlos López</a></td>
 							<td class="">
 								<a href="cliente-paquete-nuevo.php?id=90" class="btn btn-sm btn-outline-success me-1"><i class="bi bi-asterisk"></i> Nuevo paquete</a>
