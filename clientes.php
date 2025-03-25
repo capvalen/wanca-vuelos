@@ -79,13 +79,13 @@
 			})
 
 			function buscarCliente(index, id){
-				
 				axios.post(servidor+'buscarCliente', {
 					dni: filtro.value.dni, nombres: filtro.value.nombres
 				}).then(response=>{
 					clientes.value = response.data
 				})
 			}
+			
 			function eliminar(index, id){
 				if(confirm(`¿Estás seguro de eliminar al cliente ${clientes.value[index].razon}?`)){
 					axios.delete(servidor+'clients/'+id).then(response=>{

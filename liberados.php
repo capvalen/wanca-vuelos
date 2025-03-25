@@ -11,7 +11,29 @@
 		<section class="col col-md-9 container mb-3 p-4 pt-3 border-start">
 			<?php  $titulo_pagina = "Sección liberados";
 			include 'menu_usuario.php'; ?>
-			<a href="liberado-nuevo.php" class="btn btn-outline-success btn-sm"><i class="bi bi-asterisk"></i> Crear nuevo liberado</a>
+			
+			<div class="card mb-2">
+				<div class="card-body">
+					<div class="row">
+						<div class="col">
+							<label for=""><i class="bi bi-funnel"></i> D.N.I. / R.U.C.</label>
+							<input type="text" class="form-control" @keypress.enter="buscar()" v-model="filtro.dni">
+						</div>
+						<div class="col">
+							<label for=""><i class="bi bi-funnel"></i> Razón social / Nombres</label>
+							<input type="text" class="form-control" @keypress.enter="buscar()" v-model="filtro.nombres">
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="d-flex justify-content-between">
+				<div class="gap-2">
+				<a href="liberado-nuevo.php" class="btn btn-outline-success btn-sm"><i class="bi bi-asterisk"></i> Crear nuevo liberado</a>
+				</div>
+				<button class="btn btn-sm btn-outline-secondary" @click="buscar()"><i class="bi bi-search"></i> Filtrar</button>
+			</div>
+
+			
 			<p>Los últimos 50 liberados</p>
 			<table class="table table-hover">
 				<thead>
@@ -45,6 +67,7 @@
 		setup() {
 			const servidor = '<?= $api ?>'
 			const liberados = ref([])
+			const filtro = ref({dni: '', nombres: ''})
 
 			onMounted(()=>{
 				axios.get(servidor+'liberados')
@@ -52,6 +75,14 @@
 					liberados.value = response.data
 				})
 			})
+
+			function buscar(index, id){
+				axios.post(servidor+'buscarLiberado', {
+					dni: filtro.value.dni, nombres: filtro.value.nombres
+				}).then(response=>{
+					liberados.value = response.data
+				})
+			}
 
 			function eliminar(index){
 				if(confirm(`¿Estás seguro de eliminar este liberado ${liberados.value[index].apellidos} ${liberados.value[index].nombres}?`)){
@@ -63,7 +94,7 @@
 			}
 
 			return {
-				liberados, eliminar
+				liberados, eliminar, filtro, buscar
 			}
 		}
 	}).mount('#app')
