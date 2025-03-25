@@ -17,39 +17,35 @@
 					<div class="row">
 						<div class="col-md-4">
 							<label for="">Apellidos</label>
-							<input type="text" class="form-control" autocomplete="off">
+							<input type="text" class="form-control" autocomplete="off" v-model="liberado.apellidos">
 						</div>
 						<div class="col-md-4">
 							<label for="">Nombres</label>
-							<input type="text" class="form-control" autocomplete="off">
+							<input type="text" class="form-control" autocomplete="off" v-model="liberado.nombres">
 						</div>
 						<div class="col-md-4">
 							<label for="">Relación con los participantes</label>
-							<select name="" id="" class="form-select mb-0">
-								<option value="1">Padre de familia</option>
-								<option value="2">Apoderado</option>
-								<option value="3">Director</option>
-								<option value="5">Sub-Director</option>
-								<option value="6">Docente</option>
+							<select name="" id="" class="form-select mb-0" v-model="liberado.relacion_id">
+								<option v-for="relacion in relaciones" :value="relacion.id">{{relacion.relacion}}</option>
 							</select>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-4 offset">
 							<label for="">D.N.I.</label>
-							<input type="text" class="form-control" autocomplete="off">
+							<input type="text" class="form-control" autocomplete="off" v-model="liberado.dni">
 						</div>
 						<div class="col-md-4 offset">
 							<label for="">Fecha caducidad DNI</label>
-							<input type="date" class="form-control" autocomplete="off">
+							<input type="date" class="form-control" autocomplete="off" v-model="liberado.caducidad">
 						</div>
 						<div class="col-md-4 ">
 							<label for="">Celular</label>
-							<input type="text" class="form-control" autocomplete="off">
+							<input type="text" class="form-control" autocomplete="off"v-model="liberado.celular">
 						</div>
 						<div class="col-md-12">
 							<label for="">Dirección de domicilio actual</label>
-							<input type="text" class="form-control" autocomplete="off">
+							<input type="text" class="form-control" autocomplete="off" v-model="liberado.direccion">
 						</div>
 					</div>
 				</div>
@@ -61,26 +57,28 @@
 					<div class="row">
 						<div class="col-md-4 ">
 							<label for="">Ficha de inscripción</label>
-							<select name="" id="" class="form-select mb-0">
+							<select name="" id="" class="form-select mb-0" v-model="liberado.ficha" @change="actualizarFechaFicha">
 								<option value="1">Si</option>
 								<option value="0">No</option>
 							</select>
-							<p class=""><i class="bi bi-arrow-right"></i> Entregado 25/10/2023</p>
+							<p v-if="liberado.fecha_ficha && liberado.ficha == 1"><i class="bi bi-arrow-right"></i> Entregado {{fechaLatam(liberado.fecha_ficha)}}</p>
+							<p v-else><i class="bi bi-arrow-right"></i> No entregado</p>
 						</div>
 						<div class="col-md-4 ">
 							<label for="">Acuerdo de pago firmado</label>
-							<select name="" id="" class="form-select mb-0">
+							<select name="" id="" class="form-select mb-0" v-model="liberado.acuerdo" @change="actualizarFechaAcuerdo">
 								<option value="1">Si</option>
 								<option value="0" select>No</option>
 							</select>
-							<p class=""><i class="bi bi-arrow-right"></i> No entregado</p>
+							<p v-if="liberado.fecha_acuerdo && liberado.acuerdo == 1"><i class="bi bi-arrow-right"></i> Entregado {{fechaLatam(liberado.fecha_acuerdo)}}</p>
+							<p v-else><i class="bi bi-arrow-right"></i> No entregado</p>
 						</div>
 					</div>
 				</div>
 			</div>
 
 			<div class="d-flex justify-content-center">
-				<button class="btn btn-primary btn-lg"><i class="bi bi-arrow-clockwise"></i> Actualizar datos</button>
+				<button class="btn btn-primary btn-lg" @click="actualizar()"><i class="bi bi-arrow-clockwise"></i> Actualizar datos</button>
 			</div>
 
 			<div class="card my-2">
@@ -117,13 +115,44 @@
 	
 	<?php include 'footer.php'; ?>
 	<script>
-	const { createApp, ref } = Vue
+	const { createApp, ref, onMounted } = Vue
 
 	createApp({
 		setup() {
-			const message = ref('Hello vue!')
+			const servidor = '<?= $api ?>'
+			const liberado = ref([])
+			const relaciones = ref([])
+			const idLiberado = ref(-1)
+
+			onMounted(()=>{
+				const urlParams = new URLSearchParams(window.location.search);
+				idLiberado.value = urlParams.get('id');
+
+				axios.get(servidor+'relaciones').then(response=>{ relaciones.value = response.data })
+				axios.get(servidor+'liberados/'+idLiberado.value).then(response=>{ liberado.value = response.data })
+			})
+
+			function actualizar(){
+				axios.put(servidor+'liberados/'+idLiberado.value, liberado.value)
+				.then(resp=>{
+					//if(resp.data.id) location.reload()
+					alert('Datos actualizados')
+				})
+			}
+
+			function actualizarFechaFicha(){
+				liberado.value.fecha_ficha = liberado.value.ficha ==1 ? moment().format('YYYY-MM-DD') : null;
+			}
+			function actualizarFechaAcuerdo(){
+				liberado.value.fecha_acuerdo = liberado.value.acuerdo ==1 ? moment().format('YYYY-MM-DD') : null;
+			}
+			function fechaLatam(fecha){
+				if(fecha)
+					return moment(fecha).format('DD/MM/YYYY');
+			}
+
 			return {
-				message
+				liberado, idLiberado, relaciones, actualizar, actualizarFechaFicha, actualizarFechaAcuerdo, fechaLatam
 			}
 		}
 	}).mount('#app')

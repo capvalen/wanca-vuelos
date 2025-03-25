@@ -15,18 +15,28 @@
 				<div class="card-body">
 					<div class="row">
 						<div class="col-4">
+							<label for="">R.U.C. / D.N.I.</label>
+							<p class="mb-0">{{cliente.ruc}}</p>
+						</div>
+						<div class="col-4">
 							<label for="">Nombre</label>
-							<p class="mb-0">Colegio Zárate</p>
+							<p class="mb-0">{{cliente.razon}}</p>
 						</div>
 						<div class="col-4">
 							<label for="">Registro</label>
-							<p class="mb-0">01/06/2021</p>
+							<p class="mb-0">{{fechaLatam(cliente.created_at)}}</p>
+						</div>
+						<div class="col-6">
+							<label for="">Datos adicionales</label>
+							<p class="mb-0">{{cliente.observaciones}}</p>
+							<p v-if="!cliente.observaciones" class="mb-0">Ninguna</p>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div class="my-2">
-				<div class="btn btn-outline-success btn-sm"><i class="bi bi-pencil-square"></i> Editar cliente</div>
+			<div class="my-2 ">
+				<a :href="'cliente-paquete-nuevo.php?id='+idCliente" class="btn btn-outline-primary btn-sm mx-1"><i class="bi bi-asterisk"></i> Nuevo paquete</a>
+				<div class="btn btn-outline-success btn-sm mx-1" data-bs-toggle="modal" data-bs-target="#modalActualizar"><i class="bi bi-pencil-square"></i> Editar cliente</div>
 			</div>
 
 			<p>Listado de paquetes asociados</p>
@@ -34,6 +44,8 @@
 				<thead>
 					<th>N°</th>
 					<th>Nombre de paquete</th>
+					<th>Precio</th>
+					<th>Costo final</th>
 					<th>Costo final</th>
 					<th>Fecha de salida</th>
 					<th>N° participantes</th>
@@ -41,35 +53,17 @@
 					<th>@</th>
 				</thead>
 				<tbody>
-					<tr>
-							<td>1</td>
-							<td><a href="paquete-detalle.php?id=6" class="text-decoration-none">Aventura en los Alpes</a></td>
-							<td>$1,200</td>
-							<td>15/11/2024</td>
+					<tr v-for="(paquete, index) in cliente.paquetes">
+							<td>{{index+1}}</td>
+							<td class="text-capitalize"><a :href="'paquete-detalle.php?id='+paquete.id" class="text-decoration-none">{{paquete.paquete}}</a></td>
+							<td>
+								<span v-if="paquete.moneda==1">S/</span> 
+								<span v-else>$</span> 
+								<span>{{paquete.precio}}</span> 
+							</td>
+							<td>{{fechaLatam(paquete.salida)}}</td>
 							<td>20</td>
 							<td>5</td>
-							<td>
-								<a href="aportacion-servicio.php?id=36" class="btn btn-sm btn-outline-primary"><i class="bi bi-plus"></i> Aportación</a>
-							</td>
-					</tr>
-					<tr>
-							<td>2</td>
-							<td><a href="paquete-detalle.php?id=6" class="text-decoration-none">Safari en Kenia</a></td>
-							<td>$2,500</td>
-							<td>01/12/2024</td>
-							<td>15</td>
-							<td>3</td>
-							<td>
-								<a href="aportacion-servicio.php?id=36" class="btn btn-sm btn-outline-primary"><i class="bi bi-plus"></i> Aportación</a>
-							</td>
-					</tr>
-					<tr>
-							<td>3</td>
-							<td><a href="paquete-detalle.php?id=6" class="text-decoration-none">Tour por las Pirámides</a></td>
-							<td>$1,800</td>
-							<td>20/12/2024</td>
-							<td>25</td>
-							<td>10</td>
 							<td>
 								<a href="aportacion-servicio.php?id=36" class="btn btn-sm btn-outline-primary"><i class="bi bi-plus"></i> Aportación</a>
 							</td>
@@ -79,20 +73,84 @@
 			</table>
 
 		</section>
+
+		<section>
+			<!-- Modal -->
+			<div class="modal fade" id="modalActualizar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				<div class="modal-dialog">
+					<div class="modal-content">
+						<div class="modal-header border-0">
+							<h1 class="modal-title fs-5" id="exampleModalLabel">Actualizar cliente</h1>
+							<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+						</div>
+						<div class="modal-body">
+							<div class="row">
+								<div class="col-6">
+									<label for="">R.U.C. / D.N.I.</label>
+									<input type="text" class="form-control" v-model="registro.ruc">
+								</div>
+								<div class="col-6">
+									<label for="">Razón social / Nombres</label>
+									<input type="text" class="form-control" v-model="registro.razon">
+								</div>
+								<div class="col-12">
+									<label for="">Datos adicionales</label>
+									<input type="text" class="form-control" v-model="registro.observaciones">
+								</div>
+							</div>
+						</div>
+						<div class="modal-footer border-0">
+							<button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal" @click="actualizar()"><i class="bi bi-floppy"></i> Actualizar campos</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
 	</main>
 	
 	<?php include 'footer.php'; ?>
 	<script>
-	const { createApp, ref } = Vue
+	const { createApp, ref, onMounted } = Vue
 
 	createApp({
 		setup() {
-			const message = ref('Hello vue!')
+			const cliente = ref([])
+			const registro = ref({ruc:'', razon:'', observaciones:''})
+			const servidor = '<?= $api ?>'
+			const idCliente = ref(-1)
+
+			onMounted(()=>{
+				const urlParams = new URLSearchParams(window.location.search);
+				idCliente.value = urlParams.get('id');
+
+				axios.get(servidor+'clients/'+idCliente.value)
+				.then(response=>{
+					cliente.value = response.data
+					registro.value = {...response.data}
+				})				
+			})
+
+			function actualizar(){
+				axios.put(servidor+'clients/'+cliente.value.id, registro.value)
+				.then(resp=>{
+					if(resp.data.id) location.reload()
+				})
+			}
+
+			function fechaLatam(fecha){
+				if(fecha)
+					return moment(fecha).format('DD/MM/YYYY');
+			}
+
 			return {
-				message
+				cliente, registro, actualizar, idCliente,
+				fechaLatam
 			}
 		}
 	}).mount('#app')
 </script>
+<style scoped>
+	label{font-weight: bold; color:#323232;}
+</style>
 </body>
 </html>

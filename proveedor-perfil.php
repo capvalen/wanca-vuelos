@@ -60,7 +60,7 @@
 			</div>
 
 			<div class="d-flex justify-content-center">
-				<button class="btn btn-primary btn-lg" @click="guardar"><i class="bi bi-asterisk"></i> Crear proveedor</button>
+				<button class="btn btn-primary btn-lg" @click="actualizar"><i class="bi bi-asterisk"></i> Actualizar proveedor</button>
 			</div>
 		</section>
 	</main>
@@ -72,6 +72,7 @@
 	createApp({
 		setup() {
 			const servidor = '<?= $api ?>'
+			const idProveedor = ref(-1)
 			const proveedor = ref({
 				nombre: '',
 				destino_id: 1,
@@ -87,21 +88,25 @@
 			const conceptos = ref([])
 
 			onMounted(()=>{
+				const urlParams = new URLSearchParams(window.location.search);
+				idProveedor.value = urlParams.get('id');
+
 				axios.get(servidor+'servicios').then(response=>{ servicios.value = response.data })
 				axios.get(servidor+'destinos').then(response=>{ destinos.value = response.data })
 				axios.get(servidor+'conceptos').then(response=>{ conceptos.value = response.data })
+				axios.get(servidor+'proveedores/'+idProveedor.value).then(response=>{ proveedor.value = response.data })
 			})
 
-			function guardar(){
-				axios.post(servidor+'proveedores', proveedor.value)
+			function actualizar(){
+				axios.put(servidor+'proveedores/'+idProveedor.value, proveedor.value)
 				.then(resp=>{
-					alert('Proveedor creado')
-					//if(resp.data.id) window.location = 'proveedor-perfil.php?id='+resp.data.id
+					//if(resp.data.id) location.reload()
+					alert('Proveedor actualizado')
 				})
 			}
 
 			return {
-				proveedor, servicios, destinos, conceptos, guardar
+				proveedor, servicios, destinos, conceptos, actualizar
 			}
 		}
 	}).mount('#app')

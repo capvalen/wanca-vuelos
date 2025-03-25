@@ -16,56 +16,25 @@
 			<table class="table table-hover">
 				<thead>
 					<th>N°</th>
+					<th>Nombre</th>
 					<th>Concepto</th>
 					<th>Ciudad</th>
 					<th>Servicio</th>
-					<th>Fecha de servicio</th>
+					<th>Fecha de inicio</th>
 					<th>@</th>
 				</thead>
 				<tbody>
-					<tr>
-							<td>1</td>
-							<td>Buffet amazónico</td>
-							<td>La merced</td>
-							<td>Restaurant</td>
-							<td>2023-11-22</td>
-							<td>
-								<button class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-pencil-square"></i></button>
-								<button class="btn btn-outline-danger btn-sm"><i class="bi bi-x"></i></button>
-							</td>
-					</tr>
-					<tr>
-							<td>2</td>
-							<td>Venta de productos lácteos</td>
-							<td>Huancayo</td>
-							<td>Comestibles</td>
-							<td>2023-12-05</td>
-							<td>
-								<button class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-pencil-square"></i></button>
-								<button class="btn btn-outline-danger btn-sm"><i class="bi bi-x"></i></button>
-							</td>
-					</tr>
-					<tr>
-							<td>3</td>
-							<td>Clase de yoga</td>
-							<td>Lima</td>
-							<td>Clases</td>
-							<td>2023-11-30</td>
-							<td>
-								<button class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-pencil-square"></i></button>
-								<button class="btn btn-outline-danger btn-sm"><i class="bi bi-x"></i></button>
-							</td>
-					</tr>
-					<tr>
-							<td>4</td>
-							<td>Corte de cabello</td>
-							<td>Mendoza</td>
-							<td>Estilista</td>
-							<td>2023-12-10</td>
-							<td>
-								<button class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-pencil-square"></i></button>
-								<button class="btn btn-outline-danger btn-sm"><i class="bi bi-x"></i></button>
-							</td>
+					<tr v-for="(proveedor, index) in proveedores" :key="proveedor.id">
+						<td>{{index+1}}</td>
+						<td><a class="text-decoration-none" :href="'proveedor-perfil.php?id='+proveedor.id">{{proveedor.nombre}}</a></td>
+						<td>{{proveedor.concepto_nombre}}</td>
+						<td>{{proveedor.destino_nombre}}</td>
+						<td>{{proveedor.servicio_nombre}}</td>
+						<td>{{fechaLatam(proveedor.inicio)}}</td>
+						<td>
+							<a :href="'proveedor-perfil.php?id='+proveedor.id" class="btn btn-sm btn-outline-primary me-1"><i class="bi bi-pencil-square"></i></a>
+							<button class="btn btn-outline-danger btn-sm" @click="eliminar(index, proveedor.id)"><i class="bi bi-x"></i></button>
+						</td>
 					</tr>
 			</tbody>
 
@@ -77,13 +46,32 @@
 	
 	<?php include 'footer.php'; ?>
 	<script>
-	const { createApp, ref } = Vue
+	const { createApp, ref, onMounted } = Vue
 
 	createApp({
 		setup() {
-			const message = ref('Hello vue!')
+			const servidor = '<?= $api ?>'
+			const proveedores = ref([])
+
+			onMounted(()=>{
+				axios.get(servidor+'proveedores').then(response=>{ proveedores.value = response.data })
+			})
+
+			function fechaLatam(fecha){
+				if(fecha)
+					return moment(fecha).format('DD/MM/YYYY');
+			}
+
+			function eliminar(index, id){
+				if(confirm(`¿Estás seguro de eliminar este proveedor ${proveedores.value[index].nombre}?`)){
+					axios.delete(servidor+'proveedores/'+id).then(response=>{
+						proveedores.value.splice(index, 1)
+					})
+				}
+			}
+			
 			return {
-				message
+				proveedores, fechaLatam, eliminar
 			}
 		}
 	}).mount('#app')

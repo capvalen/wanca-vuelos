@@ -38,7 +38,7 @@
 	
 		createApp({
 			setup() {
-				const servidor = 'http://localhost/documentos-cimal/api/'
+				const servidor = '<?= $api ?>'
 				const usuario = ref('')
 				const clave = ref('')
 				
@@ -51,15 +51,20 @@
 				async function iniciar(){
 					let datos = new FormData()
 					datos.append('usuario', usuario.value)
-					datos.append('clave', clave.value)
-					const serv = await fetch('php/validarLogin.php',{
+					datos.append('password', clave.value)
+					const serv = await fetch(servidor+'login',{
 						method:'POST', body:datos
 					})
 					const response = await serv.json()
-					if(response.mensaje == 'ok'){
-						localStorage.setItem('idUsuario', response.usuario.idUsuario)
-						localStorage.setItem('nombreUsuario', response.usuario.paterno +" " + response.usuario.materno + " " + response.usuario.nombres)
-						localStorage.setItem('nivel', response.usuario.nivel)
+					if(response.idUsuario>0){
+						localStorage.setItem('idUsuario', response.idUsuario)
+						localStorage.setItem('nombreUsuario', response.paterno +" " + response.materno + " " + response.nombre)
+						localStorage.setItem('nivel', response.nivel)
+
+						document.cookie = "nombre_usuario="+response.paterno +" " + response.materno + " " + response.nombre+"; path=/";
+						document.cookie = "idUsuario="+response.idUsuario +"; path=/";
+						document.cookie = "nivel="+response.nivel+"; path=/";
+						
 						window.location='principal.php'
 					}else{
 						alert('Un dato esta mal, o esta dehabilitado')

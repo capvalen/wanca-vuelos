@@ -14,230 +14,57 @@
 
 			<div class="row">
 				<div class="col-6">
-					<label for="">Nombre del cliente</label>
-					<input type="text" class="form-control">
+					<label for="">Nombre del paquete</label>
+					<input type="text" class="form-control" v-model="paquete.paquete">
 				</div>
 				<div class="col-6">
 					<label for="">Destino</label>
-					<select name="" id="" class="form-select">
-						<option value="1">Lima</option>
-						<option value="2">Huancayo</option>
+					<select name="" id="" class="form-select" v-model="paquete.destino_id">
+						<option v-for="destino in destinos" :value="destino.id">{{destino.destino}}</option>
 					</select>
 				</div>
 				<div class="col-6">
-					<label for="">Costo del paquete</label>
-					<input type="number" class="form-control" value=0>
+					<label for="">Fecha de salida</label>
+					<input type="date" class="form-control" v-model="paquete.salida">
+				</div>
+				<div class="col-6">
+					<label for="">Fecha de regreso</label>
+					<input type="date" class="form-control" v-model="paquete.regreso">
 				</div>
 				<div class="col-6">
 					<label for="">Moneda</label>
-					<select name="" id="" class="form-select">
-						<option value="1">Soles</option>
-						<option value="2">Dólares</option>
+					<select name="" id="" class="form-select" v-model="paquete.moneda_id">
+						<option v-for="moneda in monedas" :value="moneda.id">{{moneda.moneda}}</option>
 					</select>
 				</div>
-				
-				<div class="col-12">
-					<div class="card">
-						<div class="card-body p-2">
-							<div class="d-flex justify-content-between">
-								<label for=""><small>Cuotas y fechas</small></label>
-								<button class="btn btn-sm btn-outline-primary"><i class="bi bi-plus-lg"></i> Agregar cuota</button>
-							</div>
-							<table class="table table-hover">
-								<thead>
-									<th>N°</th>
-									<th>Monto (S/)</th>
-									<th>Desde</th>
-									<th>Hasta</th>
-									<th>@</th>
-								</thead>
-								<tbody>
-									<tr>
-										<td>1</td>
-										<td><input type="number" class="form-control" value="50.00"></td>
-										<td><input type="date" class="form-control" value="2024-10-01"></td>
-										<td><input type="date" class="form-control" value="2024-10-28"></td>
-										<td>
-											<button class="btn btn-outline-danger btn-sm"><i class="bi bi-x"></i></button>
-										</td>
-									</tr>
-									<tr>
-										<td>2</td>
-										<td><input type="number" class="form-control" value="50.00"></td>
-										<td><input type="date" class="form-control" value="2024-10-29"></td>
-										<td><input type="date" class="form-control" value="2024-11-15"></td>
-										<td>
-											<button class="btn btn-outline-danger btn-sm"><i class="bi bi-x"></i></button>
-										</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
 
-				<div class="col-12 mt-2">
-					<div class="card">
-						<div class="card-body p-2">
-							<div class="d-flex justify-content-between">
-								<label for=""><small>Fechas de viaje</small></label>
-								<button class="btn btn-sm btn-outline-primary"><i class="bi bi-plus-lg"></i> Agregar destino</button>
-							</div>
-							<table class="table table-hover">
-								<thead>
-									<th>N°</th>
-									<th>Salida el día</th>
-									<th>Desde</th>
-									<th>Llegada</th>
-								</thead>
-								<tbody>
-									<tr>
-										<td>1</td>
-										<td>04/05/2025</td>
-										<td>Huancayo</td>
-										<td>05/05/2025</td>
-										<td>Lima</td>
-									</tr>
-									<tr>
-										<td>2</td>
-										<td>06/05/2025</td>
-										<td>Lima</td>
-										<td>06/05/2025</td>
-										<td>Cuzco</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-12 mt-2">
-					<div class="card">
-						<div class="card-body p-2">
-							<div class="d-flex justify-content-between">
-								<label for=""><small>Datos de los participantes</small></label>
-								<button class="btn btn-sm btn-outline-primary"><i class="bi bi-plus-lg"></i> Agregar participantes</button>
-							</div>
-							<table class="table table-hover">
-								<thead>
-									<th>N°</th>
-									<th>D.N.I.</th>
-									<th>Nombre y apellidos</th>
-									<th>N° Pasaporte</th>
-									<th>Celular</th>
-								</thead>
-								<tbody>
-									<tr>
-										<td>1</td>
-										<td>12345678</td>
-										<td>Juan Pérez</td>
-										<td>AB123456</td>
-										<td>987654321</td>
-									</tr>
-									<tr>
-										<td>2</td>
-										<td>87654321</td>
-										<td>María Rodríguez</td>
-										<td>CD123456</td>
-										<td>987654321</td>
-									</tr>
-									<tr>
-										<td>3</td>
-										<td>45678901</td>
-										<td>Luis Gómez</td>
-										<td>EF123456</td>
-										<td>987654321</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-12 mt-2">
-					<div class="card">
-						<div class="card-body p-2">
-							<div class="d-flex justify-content-between">
-								<label for=""><small>Datos del proveedor</small></label>
-								<button class="btn btn-sm btn-outline-primary"><i class="bi bi-plus-lg"></i> Agregar proveedor</button>
-							</div>
-							<table class="table table-hover">
-								<thead>
-									<th>N°</th>
-									<th>Proveedor</th>
-									<th>Lugar</th>
-								</thead>
-								<tbody>
-									<tr>
-										<td>1</td>
-										<td>Restaurant El Chancho Feliz</td>
-										<td>Ayacucho</td>
-									</tr>
-									<tr>
-										<td>2</td>
-										<td>Hotel El Dorado</td>
-										<td>Ayacucho</td>
-									</tr>
-									<tr>
-										<td>3</td>
-										<td>Restaurante Don Pepe</td>
-										<td>Cusco</td>
-								</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-12 mt-2">
-					<div class="card">
-						<div class="card-body p-2">
-							<div class="d-flex justify-content-between">
-								<label for=""><small>Liberados</small></label>
-								<button class="btn btn-sm btn-outline-primary"><i class="bi bi-plus-lg"></i> Agregar liberado</button>
-							</div>
-							<table class="table table-hover">
-								<thead>
-									<th>N°</th>
-									<th>Nombre y apellidos</th>
-									<th>D.N.I.</th>
-									<th>Celular</th>
-									<th>Parentezco</th>
-								</thead>
-								<tbody>
-									<tr>
-										<td>1</td>
-										<td>Juan Pérez</td>
-										<td>12345678</td>
-										<td>950660005</td>
-										<td>Padre de familia</td>
-									</tr>
-									<tr>
-										<td>2</td>
-										<td>María Rodríguez</td>
-										<td>87654321</td>
-										<td>948184004</td>
-										<td>Sub-Director</td>
-									</tr>
-								</tbody>
-							</table>
-						</div>
-					</div>
-				</div>
-
-				<div class="col-6 mt-2">
-					<label for="">Costo adicional del paquete (S/)</label>
-					<input type="number" class="form-control">
-				</div>
-				<div class="col-6 mt-2">
-					<label for="">Motivo del costo adicional</label>
-					<input type="text" class="form-control">
+				<div class="col-6">
+					<label for="">Costo del paquete</label>
+					<input type="number" class="form-control" v-model="paquete.costo" v-model="paquete.motivo" @change="cambiarFinal()" @keyup="cambiarFinal()">
 				</div>
 				<div class="col-6">
-					<p class="fs-5">Total a pagar final: <strong>S/ 6 000.00</strong></p>
+					<label for="">Costo adicional</label>
+					<input type="number" class="form-control" v-model="paquete.adicional" @change="cambiarFinal()" @keyup="cambiarFinal()">
+				</div>
+				<div class="col-6">
+					<label for="">Motivo del adicional</label>
+					<input type="text" class="form-control" v-model="paquete.motivo">
+				</div>
+				<div class="col-6">
+					<label for="">Datos extras</label>
+					<input type="text" class="form-control" v-model="paquete.observaciones">
+				</div>
+
+				
+				<div class="col-6">
+					<p class="fs-5">Total a pagar final: <strong>
+						<span v-if="paquete.moneda_id==1">S/ </span> 
+						<span v-if="paquete.moneda_id==2">$ </span> 
+						<span>{{parseFloat(paquete.precio).toFixed(2)}}</span>
+					</strong></p>
 				</div>
 				<div class="col-6 d-grid">
-					<button class="btn btn-success"><i class="bi bi-floppy"></i> Guardar paquete</button>
+					<button class="btn btn-success" @click="guardar()"><i class="bi bi-floppy"></i> Guardar paquete</button>
 				</div>
 
 			</div>
@@ -246,19 +73,55 @@
 	
 	<?php include 'footer.php'; ?>
 	<script>
-	const { createApp, ref } = Vue
+	const { createApp, ref, onMounted } = Vue
 
 	createApp({
 		setup() {
-			const message = ref('Hello vue!')
+			const idCliente = ref([])
+			const destinos = ref([])
+			const monedas = ref([])
+			const paquete = ref({
+				paquete:'', costo:0, adicional:0, precio:0, motivo:'', observaciones:'', destino_id:1, moneda_id:1, client_id:-1, salida:null, regreso:null
+			})
+			const servidor = '<?= $api ?>'
+
+			onMounted(()=>{
+				const urlParams = new URLSearchParams(window.location.search);
+				idCliente.value = urlParams.get('id');
+
+				paquete.value.client_id = idCliente.value
+
+				axios.get(servidor+'destinos').then(response=> destinos.value = response.data)
+				axios.get(servidor+'monedas').then(response=> monedas.value = response.data)
+			})
+
+			function guardar(){
+				axios.post(servidor+'paquetes', paquete.value)
+				.then(resp=>{
+					if(resp.data.id) window.location = 'paquete-detalle.php?id='+resp.data.id
+				})
+			}
+
+			function cambiarFinal(){
+				paquete.value.costo = parseFloat(paquete.value.costo || 0)
+				paquete.value.adicional = parseFloat(paquete.value.adicional || 0)
+				return paquete.value.precio = (parseFloat(paquete.value.costo ) + parseFloat(paquete.value.adicional )) 
+			}
+
+			function fechaLatam(fecha){
+				if(fecha)
+					return moment(fecha).format('DD/MM/YYYY');
+			}
+
 			return {
-				message
+				idCliente, destinos, monedas, paquete,
+				cambiarFinal, guardar, fechaLatam
 			}
 		}
 	}).mount('#app')
 </script>
-<style>
-	
+<style scoped>
+	label{font-weight: bold; color:#323232;}
 </style>
 </body>
 </html>

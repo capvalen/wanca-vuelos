@@ -16,32 +16,18 @@
 			<table class="table table-hover">
 				<thead>
 					<th>N°</th>
-					<th>Apellidos y nombres</th>
 					<th>D.N.I.</th>
+					<th>Apellidos y nombres</th>
 					<th>Contacto</th>
 					<th>@</th>
 				</thead>
 				<tbody>
-					<tr>
-							<td>1</td>
-							<td><a href="liberado-perfil.php?id=6" class="text-decoration-none">García López, Juan</a></td>
-							<td>12345678</td>
-							<td>950-850111</td>
-							<td><button class="btn btn-outline-danger btn-sm"><i class="bi bi-x-lg"></i></button></td>
-					</tr>
-					<tr>
-							<td>2</td>
-							<td><a href="liberado-perfil.php?id=6" class="text-decoration-none">Martínez Pérez, Ana</a></td>
-							<td>87654321</td>
-							<td>25-2601</td>
-							<td><button class="btn btn-outline-danger btn-sm"><i class="bi bi-x-lg"></i></button></td>
-					</tr>
-					<tr>
-							<td>4</td>
-							<td><a href="liberado-perfil.php?id=6" class="text-decoration-none">Rodríguez Gómez, María</a></td>
-							<td>44332211</td>
-							<td>95145581</td>
-							<td><button class="btn btn-outline-danger btn-sm"><i class="bi bi-x-lg"></i></button></td>
+					<tr v-for="(liberado, index) in liberados" :key="liberado.id">
+						<td>{{index+1}}</td>							
+						<td>{{liberado.dni}}</td>
+						<td class="text-capitalize"><a :href="'liberado-perfil.php?id='+liberado.id" class="text-decoration-none">{{liberado.apellidos}} {{liberado.nombres}}</a></td>
+						<td>{{liberado.celular}}</td>
+						<td><button class="btn btn-outline-danger btn-sm" @click="eliminar(index)"><i class="bi bi-x"></i></button></td>
 					</tr>
 				</tbody>
 
@@ -53,13 +39,31 @@
 	
 	<?php include 'footer.php'; ?>
 	<script>
-	const { createApp, ref } = Vue
+	const { createApp, ref, onMounted } = Vue
 
 	createApp({
 		setup() {
-			const message = ref('Hello vue!')
+			const servidor = '<?= $api ?>'
+			const liberados = ref([])
+
+			onMounted(()=>{
+				axios.get(servidor+'liberados')
+				.then(response=>{
+					liberados.value = response.data
+				})
+			})
+
+			function eliminar(index){
+				if(confirm(`¿Estás seguro de eliminar este liberado ${liberados.value[index].apellidos} ${liberados.value[index].nombres}?`)){
+					axios.delete(servidor+'liberados/'+liberados.value[index].id)
+					.then(response=>{
+						liberados.value.splice(index, 1)
+					})
+				}
+			}
+
 			return {
-				message
+				liberados, eliminar
 			}
 		}
 	}).mount('#app')

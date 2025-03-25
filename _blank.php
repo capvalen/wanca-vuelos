@@ -18,11 +18,23 @@
 	
 	<?php include 'footer.php'; ?>
 	<script>
-	const { createApp, ref } = Vue
+	const { createApp, ref, onMounted } = Vue
 
 	createApp({
 		setup() {
 			const message = ref('Hello vue!')
+			const servidor = '<?= $api ?>'
+
+			onMounted(()=>{
+				const urlParams = new URLSearchParams(window.location.search);
+				const idCliente = urlParams.get('id');
+
+				axios.get(servidor+'clients/'+idCliente)
+				.then(response=>{
+					//
+				})
+			})
+
 			return {
 				message
 			}

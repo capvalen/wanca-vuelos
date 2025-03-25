@@ -17,40 +17,36 @@
 					<div class="row">
 						<div class="col-md-4">
 							<label for="">Apellidos</label>
-							<input type="text" class="form-control" autocomplete="off">
+							<input type="text" class="form-control" autocomplete="off" v-model="liberado.apellidos">
 						</div>
 						<div class="col-md-4">
 							<label for="">Nombres</label>
-							<input type="text" class="form-control" autocomplete="off">
+							<input type="text" class="form-control" autocomplete="off" v-model="liberado.nombres">
 						</div>
 						<div class="col-md-4">
 							<label for="">Relación con los participantes</label>
-							<select name="" id="" class="form-select mb-0">
-								<option value="1">Padre de familia</option>
-								<option value="2">Apoderado</option>
-								<option value="3">Director</option>
-								<option value="5">Sub-Director</option>
-								<option value="6">Docente</option>
+							<select name="" id="" class="form-select mb-0" v-model="liberado.relacion_id">
+								<option v-for="relacion in relaciones" :value="relacion.id">{{relacion.relacion}}</option>
 							</select>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-4 offset">
 							<label for="">D.N.I.</label>
-							<input type="text" class="form-control" autocomplete="off">
+							<input type="text" class="form-control" autocomplete="off" v-model="liberado.dni">
 						</div>
 						<div class="col-md-4 offset">
 							<label for="">Fecha caducidad DNI</label>
-							<input type="date" class="form-control" autocomplete="off">
+							<input type="date" class="form-control" autocomplete="off" v-model="liberado.caducidad">
 						</div>
 						<div class="col-md-4 ">
 							<label for="">Celular</label>
-							<input type="text" class="form-control" autocomplete="off">
+							<input type="text" class="form-control" autocomplete="off" v-model="liberado.cellular">
 						</div>
 						<div class="col-md-12">
 							<label for="">Dirección de domicilio actual</label>
-							<input type="text" class="form-control" autocomplete="off">
-						</div>
+							<input type="text" class="form-control" autocomplete="off" v-model="liberado.direccion">
+						</div>						
 					</div>
 				</div>
 			</div>
@@ -61,39 +57,71 @@
 					<div class="row">
 						<div class="col-md-4 ">
 							<label for="">Ficha de inscripción</label>
-							<select name="" id="" class="form-select mb-0">
+							<select name="" id="" class="form-select mb-0" v-model="liberado.ficha">
 								<option value="1">Si</option>
 								<option value="0">No</option>
 							</select>
-							<p class=""><i class="bi bi-arrow-right"></i> Entregado 25/10/2023</p>
 						</div>
 						<div class="col-md-4 ">
 							<label for="">Acuerdo de pago firmado</label>
-							<select name="" id="" class="form-select mb-0">
+							<select name="" id="" class="form-select mb-0" v-model="liberado.acuerdo">
 								<option value="1">Si</option>
 								<option value="0" select>No</option>
 							</select>
-							<p class=""><i class="bi bi-arrow-right"></i> No entregado</p>
+						</div>
+						<div class="col-md-4 ">
+							<label for="">N° de pasaporte</label>
+							<input type="text" class="form-control" autocomplete="off" v-model="liberado.pasaporte">
+						</div>
+						<div class="col-md-12">
+							<label for="">Anotaciones adicionales</label>
+							<input type="text" class="form-control" autocomplete="off" v-model="liberado.observaciones">
 						</div>
 					</div>
 				</div>
 			</div>
 
 			<div class="d-flex justify-content-center">
-				<button class="btn btn-primary btn-lg"><i class="bi bi-arrow-clockwise"></i> Crear liberado</button>
+				<button class="btn btn-primary btn-lg" @click="guardar"><i class="bi bi-asterisk"></i> Crear liberado</button>
 			</div>
 		</section>
 	</main>
 	
 	<?php include 'footer.php'; ?>
 	<script>
-	const { createApp, ref } = Vue
+	const { createApp, ref, onMounted } = Vue
 
 	createApp({
 		setup() {
-			const message = ref('Hello vue!')
+			const servidor = '<?= $api ?>'
+			const liberado = ref({
+				apellidos: '',
+				nombres: '',
+				dni: '',
+				caducidad: '',
+				relacion_id: 1,
+				direccion: '',
+				celular: '',
+				ficha: 0,
+				acuerdo: 0,
+				pasaporte: '',
+				observaciones: ''
+			})
+			const relaciones = ref([])
+
+			onMounted(()=>{
+				axios.get(servidor+'relaciones').then(response=>{ relaciones.value = response.data })
+			})
+
+			function guardar(){
+				axios.post(servidor+'liberados', liberado.value)
+				.then(resp=>{
+					if(resp.data.id) window.location = 'liberado-perfil.php?id='+resp.data.id
+				})
+			}
+
 			return {
-				message
+				liberado, relaciones, guardar
 			}
 		}
 	}).mount('#app')

@@ -16,47 +16,23 @@
 			<table class="table table-hover">
 				<thead>
 					<th>N°</th>
-					<th>Apellidos y nombres</th>
 					<th>D.N.I.</th>
+					<th>Apellidos y nombres</th>
 					<th>Padres</th>
 					<th>Contacto</th>
 					<th>@</th>
 				</thead>
 				<tbody>
-					<tr>
-							<td>1</td>
-							<td><a href="participante-perfil.php?id=6" class="text-decoration-none">García López, Juan</a></td>
-							<td>12345678</td>
-							<td>
-								<p>María López</p>
-								<p>Pedro García</p>
-							</td>
-							<td>juan.garcia@example.com</td>
-							<td><button class="btn btn-outline-danger btn-sm"><i class="bi bi-x"></i></button></td>
-					</tr>
-					<tr>
-							<td>2</td>
-							<td><a href="participante-perfil.php?id=6" class="text-decoration-none">Martínez Pérez, Ana</a></td>
-							<td>87654321</td>
-							<td><p>Laura Pérez</p> <p>Carlos Martínez</p></td>
-							<td>ana.martinez@example.com</td>
-							<td><button class="btn btn-outline-danger btn-sm"><i class="bi bi-x"></i></button></td>
-					</tr>
-					<tr>
-							<td>3</td>
-							<td><a href="participante-perfil.php?id=6" class="text-decoration-none">Fernandez Miguel, Carlos</a></td>
-							<td>11223344</td>
-							<td><p>Elena Ruiz</p> <p>Miguel Fernández</p></td>
-							<td>luis.fernandez@example.com</td>
-							<td><button class="btn btn-outline-danger btn-sm"><i class="bi bi-x"></i></button></td>
-					</tr>
-					<tr>
-							<td>4</td>
-							<td><a href="participante-perfil.php?id=6" class="text-decoration-none">Rodríguez Gómez, María</a></td>
-							<td>44332211</td>
-							<td><p>Isabel Gómez</p> <p>José Rodríguez</p></td>
-							<td>maria.rodriguez@example.com</td>
-							<td><button class="btn btn-outline-danger btn-sm"><i class="bi bi-x"></i></button></td>
+					<tr v-for="(participante, index) in participantes" :key="participante.id">
+						<td>{{index+1}}</td>							
+						<td>{{participante.dni}}</td>
+						<td class="text-capitalize"><a :href="'participante-perfil.php?id='+participante.id" class="text-decoration-none">{{participante.apellidos}} {{participante.nombres}}</a></td>
+						<td>
+							<p>María López</p>
+							<p>Pedro García</p>
+						</td>
+						<td>{{participante.celular}}</td>
+						<td><button class="btn btn-outline-danger btn-sm" @click="eliminar(index)"><i class="bi bi-x"></i></button></td>
 					</tr>
 				</tbody>
 
@@ -68,13 +44,31 @@
 	
 	<?php include 'footer.php'; ?>
 	<script>
-	const { createApp, ref } = Vue
+	const { createApp, ref, onMounted } = Vue
 
 	createApp({
 		setup() {
-			const message = ref('Hello vue!')
+			const servidor = '<?= $api ?>'
+			const participantes = ref([])
+
+			onMounted(()=>{
+				axios.get(servidor+'participantes')
+				.then(response=>{
+					participantes.value = response.data
+				})
+			})
+
+			function eliminar(index){
+				if(confirm(`¿Estás seguro de eliminar este participante ${participantes.value[index].apellidos} ${participantes.value[index].nombres}?`)){
+					axios.delete(servidor+'participantes/'+participantes.value[index].id)
+					.then(response=>{
+						participantes.value.splice(index, 1)
+					})
+				}
+			}
+
 			return {
-				message
+				participantes, eliminar
 			}
 		}
 	}).mount('#app')
