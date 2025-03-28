@@ -6,3 +6,6 @@ label>small{
 	font-weight: bold;
 	opacity: 0.8;
 }
+*, .table{
+	--bs-table-hover-bg: rgba(114, 187, 80, 0.08) !important;
+}

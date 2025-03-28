@@ -16,11 +16,11 @@
 				<div class="card-body">
 					<div class="row">
 						<div class="col">
-							<label for=""><i class="bi bi-funnel"></i> D.N.I. / R.U.C.</label>
+							<label for=""><i class="bi bi-funnel"></i> D.N.I. </label>
 							<input type="text" class="form-control" @keypress.enter="buscar()" v-model="filtro.dni">
 						</div>
 						<div class="col">
-							<label for=""><i class="bi bi-funnel"></i> Razón social / Nombres</label>
+							<label for=""><i class="bi bi-funnel"></i> Apellidos y Nombres</label>
 							<input type="text" class="form-control" @keypress.enter="buscar()" v-model="filtro.nombres">
 						</div>
 					</div>
@@ -34,27 +34,27 @@
 			</div>
 
 			
-			<p>Los últimos 50 liberados</p>
-			<table class="table table-hover">
-				<thead>
-					<th>N°</th>
-					<th>D.N.I.</th>
-					<th>Apellidos y nombres</th>
-					<th>Contacto</th>
-					<th>@</th>
-				</thead>
-				<tbody>
-					<tr v-for="(liberado, index) in liberados" :key="liberado.id">
-						<td>{{index+1}}</td>							
-						<td>{{liberado.dni}}</td>
-						<td class="text-capitalize"><a :href="'liberado-perfil.php?id='+liberado.id" class="text-decoration-none">{{liberado.apellidos}} {{liberado.nombres}}</a></td>
-						<td>{{liberado.celular}}</td>
-						<td><button class="btn btn-outline-danger btn-sm" @click="eliminar(index)"><i class="bi bi-x"></i></button></td>
-					</tr>
-				</tbody>
-
-
-			</table>
+			<div class="resultados mt-3">
+				<p>Los últimos 50 liberados</p>
+				<table class="table table-hover">
+					<thead>
+						<th>N°</th>
+						<th>D.N.I.</th>
+						<th>Apellidos y nombres</th>
+						<th>Contacto</th>
+						<th>@</th>
+					</thead>
+					<tbody>
+						<tr v-for="(liberado, index) in liberados" :key="liberado.id">
+							<td>{{index+1}}</td>
+							<td>{{liberado.dni}}</td>
+							<td class="text-capitalize"><a :href="'liberado-perfil.php?id='+liberado.id" class="text-decoration-none">{{liberado.apellidos}} {{liberado.nombres}}</a></td>
+							<td>{{liberado.celular}}</td>
+							<td><button class="btn btn-outline-danger btn-sm" @click="eliminar(index)"><i class="bi bi-x"></i></button></td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
 
 		</section>
 	</main>

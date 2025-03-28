@@ -44,9 +44,9 @@
 				<thead>
 					<th>N°</th>
 					<th>Nombre de paquete</th>
-					<th>Precio</th>
-					<th>Costo final</th>
-					<th>Costo final</th>
+					<th>Costo</th>
+					<th>Aumento</th>
+					<th>Precio final</th>
 					<th>Fecha de salida</th>
 					<th>N° participantes</th>
 					<th>N° liberados</th>
@@ -59,11 +59,21 @@
 							<td>
 								<span v-if="paquete.moneda==1">S/</span> 
 								<span v-else>$</span> 
+								<span>{{paquete.costo}}</span> 
+							</td>
+							<td>
+								<span v-if="paquete.moneda==1">S/</span> 
+								<span v-else>$</span> 
+								<span>{{paquete.adicional}}</span> 
+							</td>
+							<td>
+								<span v-if="paquete.moneda==1">S/</span> 
+								<span v-else>$</span> 
 								<span>{{paquete.precio}}</span> 
 							</td>
 							<td>{{fechaLatam(paquete.salida)}}</td>
-							<td>20</td>
-							<td>5</td>
+							<td>{{paquete.participantes.length}}</td>
+							<td>{{paquete.liberados.length}}</td>
 							<td>
 								<a href="aportacion-servicio.php?id=36" class="btn btn-sm btn-outline-primary"><i class="bi bi-plus"></i> Aportación</a>
 							</td>
