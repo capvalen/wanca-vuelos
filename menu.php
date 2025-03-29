@@ -33,7 +33,7 @@ $pagina = basename($camino, '.php');
 	<a href="proveedores.php" type="button" class="list-group-item list-group-item-action <?= in_array($pagina, array('proveedores', 'proveedor-nuevo', 'proveedor-perfil')) ? 'active':'' ?>">
 		<i class="bi bi-caret-right"></i> <span class="icono"><i class="bi bi-airplane"></i> Proveedores</span> 
 	</a>
-	<a href="caja.php" type="button" class="list-group-item list-group-item-action">
+	<a href="caja.php" type="button" class="list-group-item list-group-item-action <?= in_array($pagina, array('caja')) ? 'active':'' ?>">
 		<i class="bi bi-caret-right"></i> <span class="icono"><i class="bi bi-cart"></i> Caja</span> 
 	</a>
 	<a href="paquetes.php" type="button" class="list-group-item list-group-item-action <?= in_array($pagina, array('paquetes', 'paquete-detalle', 'paquete-nuevo')) ? 'active':'' ?>">

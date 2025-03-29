@@ -31,11 +31,11 @@
 				</div>
 			</div>
 			<div class="d-flex justify-content-between">
-				<button class="btn btn-outline-primary btn-sm mx-1" data-bs-toggle="modal" data-bs-target="#modalBuscar"><i class="bi bi-asterisk"></i> Nuevo paquete</button>
+				<a  href="aportacion-perfil.php" class="btn btn-sm btn-outline-primary btn-sm mx-1 d-none"><i class="bi bi-asterisk"></i> Nueva aportación</a>
 				<button class="btn btn-sm btn-outline-secondary" @click="buscarPaquete()"><i class="bi bi-search"></i> Filtrar</button>
 			</div>
 
-			<p>Listado de últimos paquetes</p>
+			<p class="mt-3 mb-2">Listado de últimos paquetes</p>
 			<table class="table table-hover">
 				<thead>
 					<th>N°</th>
@@ -75,7 +75,7 @@
 							<td>{{paquete.participantes.length}}</td>
 							<td>{{paquete.liberados.length}}</td>
 							<td>
-								<a :href="'aportacion-paquete.php?id='+paquete.id" class="btn btn-sm btn-outline-primary"><i class="bi bi-plus"></i> Aportación</a>
+								<a :href="'aportacion-perfil.php?id='+paquete.id" class="btn btn-sm btn-outline-primary"><i class="bi bi-plus"></i> Aportación</a>
 							</td>
 					</tr>
 			</tbody>

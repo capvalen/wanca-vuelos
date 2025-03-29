@@ -62,6 +62,9 @@
 						<td>{{fechaLatam(viaje.fecha_llegada)}}</td>
 						<td>{{viaje.ciudad_llegada}}</td>
 					</tr>
+					<tr v-if="paquete.viajes?.length==0">
+						<td colspan="5">No hay ningún viaje registrado</td>
+					</tr>
 				</tbody>
 			</table>
 
@@ -80,6 +83,9 @@
 						<td>{{fechaLatam(cuota.desde)}}</td>
 						<td>{{fechaLatam(cuota.hasta)}}</td>
 					</tr>
+					<tr v-if="paquete.cuotas?.length==0">
+						<td colspan="5">No hay ninguna cuota registrada</td>
+					</tr>
 				</tbody>
 			</table>
 
@@ -89,18 +95,18 @@
 				<div class="row">
 					<div class="col-md-4">
 						<label for="">Tipo de participante</label>
-						<select class="form-select" v-model="aportacion.tipo_participante">
+						<select class="form-select" v-model="aportacion.tipo_participante" @change="aportacion.participante_id=null">
 							<option value="personal">Personal</option>
 							<option value="junta">Como Junta directiva</option>
 						</select>
 					</div>
-					<div class="col-md-4">
+					<div class="col-md-4 d-none">
 						<label for="">Entidad (cliente)</label>
 						<select name="" id="" class="form-select" v-model="aportacion.client_id" @change="cambiarPaquetes()">
 							<option v-for="entidad in entidades" :value="entidad.id">{{entidad.razon}}</option>
 						</select>
 					</div>
-					<div class="col-md-4" >
+					<div class="col-md-4 d-none" >
 						<label for="">Paquete</label>
 						<select name="" id="" class="form-select" v-model="aportacion.paquete_id" @change="cambiarParticipantes()">
 							<template v-for="paquete in paquetes" >
@@ -108,7 +114,7 @@
 							</template>
 						</select>
 					</div>
-					<div class="col-md-4" v-show="aportacion.tipo_participante=='personal'">
+					<div class="col-md-4" v-show="aportacion.tipo_participante=='personal'" >
 						<label for="">Participante</label>
 						<select name="" id="" class="form-select" v-model="aportacion.participante_id">
 							<template v-for="participante in participantes">
@@ -173,15 +179,18 @@
 						<label for="">N° de operación</label>
 						<input type="text" class="form-control" v-model="aportacion.num_operacion">
 					</div>
+					<div class="col-6">
+						<div class="d-flex justify-content-center align-items-center">
+							<button v-if="caja.estado=='abierta'" class="btn btn-outline-success btn-lg py-2" @click="addPago()"><i class="bi bi-box-arrow-in-down"></i> Adicionar pago</button>
+							<p v-else ><i class="bi bi-piggy-bank"></i> No hay caja aperturada</p>
+						</div>
+					</div>
 				</div>
 			</div>
 		</div>
-		<div class="d-flex justify-content-end">
-			<button v-if="caja.estado=='abierta'" class="btn btn-outline-success" @click="addPago()"><i class="bi bi-box-arrow-in-down"></i> Adicionar pago</button>
-			<p v-else ><i class="bi bi-piggy-bank"></i> No hay caja aperturada</p>
-		</div>
+		
 
-		<div class="card my-2">
+		<div class="card my-4">
 			<div class="card-body">
 				<label for=""><small>Aportaciones realizadas</small></label>
 				<table class="table table-hover">
@@ -196,75 +205,28 @@
 						<th>@</th>
 					</thead>
 					<tbody>
-						<tr>
-								<td>1</td>
-								<td>Junta directiva</td>
-								<td>09/10/2024</td>
-								<td>$100</td>
-								<td>3.9</td>
-								<td>S/ 390</td>
-								<td>Cuota</td>
-								<td>
-										<button class="btn btn-sm me-1 btn-outline-secondary" title="Comprobante de pago"><i class="bi bi-sticky"></i></button>
-										<button class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-eraser"></i></button>
-								</td>
-						</tr>
-						<tr>
-								<td>2</td>
-								<td>María Rodríguez</td>
-								<td>11/08/2024</td>
-								<td>$50</td>
-								<td>4.2</td>
-								<td>S/ 210</td>
-								<td>Adelanto</td>
-								<td>
-										<button class="btn btn-sm me-1 btn-outline-secondary" title="Comprobante de pago"><i class="bi bi-sticky"></i></button>
-										<button class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-eraser"></i></button>
-								</td>
-						</tr>
-						<tr>
-								<td>3</td>
-								<td>Junta directiva</td>
-								<td>11/08/2024</td>
-								<td>S/ 150</td>
-								<td>-</td>
-								<td>S/ 103</td>
-								<td>Adelanto</td>
-								<td>
-										<button class="btn btn-sm me-1 btn-outline-secondary" title="Comprobante de pago"><i class="bi bi-sticky"></i></button>
-										<button class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-eraser"></i></button>
-								</td>
-						</tr>
-						<tr>
-								<td>4</td>
-								<td>Junta directiva</td>
-								<td>10/08/2024</td>
-								<td>S/ 200</td>
-								<td>-</td>
-								<td>S/ 200</td>
-								<td>Cuota</td>
-								<td>
-										<button class="btn btn-sm me-1 btn-outline-secondary" title="Comprobante de pago"><i class="bi bi-sticky"></i></button>
-										<button class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-eraser"></i></button>
-								</td>
-						</tr>
-						<tr>
-								<td>5</td>
-								<td>Carlos Martínez</td>
-								<td>09/05/2024</td>
-								<td>$80</td>
-								<td>4.3</td>
-								<td>S/ 344</td>
-								<td>Adelanto</td>
-								<td>
-										<button class="btn btn-sm me-1 btn-outline-secondary" title="Comprobante de pago"><i class="bi bi-sticky"></i></button>
-										<button class="btn btn-sm btn-outline-danger" title="Eliminar"><i class="bi bi-eraser"></i></button>
-								</td>
+						<tr v-for="(aportacion, index) in paquete.aportaciones">
+							<td>{{index+1}}</td>
+							<td v-if="aportacion.tipo_participante=='personal'" class="text-capitalize">{{aportacion.participante_nombre}}</td>
+							<td v-if="aportacion.tipo_participante=='junta'">Junta directiva</td>
+							<td>{{fechaLatam(aportacion.fecha)}}</td>
+							<td>
+								<span v-if="aportacion.moneda_id==1">S/</span> 
+								<span v-else>$</span> 
+								{{aportacion.monto}}</td>
+							<td>{{aportacion.tipo_cambio}}</td>
+							<td v-if="aportacion.moneda_id==1">S/ {{aportacion.monto}}</td>
+							<td v-else>S/ {{aportacion.monto * aportacion.tipo_cambio}}</td>
+							<td>{{aportacion.proceso_corto}}</td>
+							<td>
+								<button class="btn btn-sm me-1 btn-outline-secondary" title="Comprobante de pago"><i class="bi bi-sticky"></i></button>
+								<button class="btn btn-sm btn-outline-danger" title="Eliminar" @click="borrarAportacion(index)"><i class="bi bi-eraser"></i></button>
+							</td>
 						</tr>
 					</tbody>
 					<tfoot>
 						<td colspan="5" class="text-end fw-bold">Total recaudado</td>
-						<td class="fw-bold">S/ 1247</td>
+						<td class="fw-bold">S/ {{parseFloat(sumaSoles).toFixed(2)}}</td>
 					</tfoot>
 				</table>
 			</div>
@@ -275,7 +237,7 @@
 	
 	<?php include 'footer.php'; ?>
 	<script>
-	const { createApp, ref, onMounted } = Vue
+	const { createApp, ref, onMounted, computed } = Vue
 
 	createApp({
 		setup() {
@@ -285,7 +247,7 @@
 			const procesos = ref([])
 			const participantes = ref([])
 			const aportacion = ref({
-				caja_id:-1,tipo_participante: 'junta', moneda_id:1, aCuenta:0, participante_id:null, banco_id:1
+				caja_id:-1, paquete_id:null,tipo_participante: 'junta', moneda_id:1, aCuenta:0, participante_id:null, banco_id:1
 			})
 			const entidades = ref([])
 			const idPaquete = ref(-1)
@@ -295,11 +257,14 @@
 			onMounted(()=>{
 				const urlParams = new URLSearchParams(window.location.search);
 				idPaquete.value = urlParams.get('id');
+				aportacion.value.paquete_id = idPaquete.value
 
 				axios.get(servidor+'paquetes/'+idPaquete.value)
 				.then(response=>{
 					paquete.value = response.data
+					participantes.value = paquete.value.participantes.sort((a, b) => a.apellidos.localeCompare(b.apellidos))
 				})
+				
 				axios.get(servidor+'clients').then(response=> entidades.value = response.data.sort((a, b) => a.razon.localeCompare(b.razon)) )
 				axios.get(servidor+'bancos').then(response=> bancos.value = response.data.sort((a, b) => a.entidad.localeCompare(b.entidad)) )
 				axios.get(servidor+'procesos').then(response=> procesos.value = response.data.sort((a, b) => a.descripcion_larga.localeCompare(b.descripcion_larga)))
@@ -310,15 +275,29 @@
 			})
 
 			function addPago(){
+				if(aportacion.value.monto <= 0 || !aportacion.value.monto ){ alert('El monto no puede ser cero o menor'); return }
+				if(!aportacion.value.proceso_id){ alert('Falta seleccionar un concepto'); return }
 				axios.post(servidor+'caja-movimientos', aportacion.value)
-				.then(response=> console.log(response.data))
+				.then(response=> {
+					if(response.data.id)
+						paquete.value.aportaciones.push(response.data)
+				})
 			}
+
+			const sumaSoles = computed(()=>{
+				return paquete.value.aportaciones?.reduce((total, aportacion) => {
+					if(aportacion.moneda_id == 1)
+						return total + parseFloat(aportacion.monto)
+					else
+						return total + (parseFloat(aportacion.monto) * parseFloat(aportacion.tipo_cambio))
+				}, 0)
+			})
 
 			function cambiarPaquetes(){
 				paquetes.value = entidades.value.filter(x=> x.id == aportacion.value.client_id).flatMap(x => x.paquetes);
 
 				aportacion.value.participante_id=null
-				console.log('borrar', aportacion.value.participante_id)
+				aportacion.value.paquete_id=null
 			}
 			function cambiarParticipantes(){
 				aportacion.value.participante_id=null
@@ -329,10 +308,19 @@
 				if(fecha)
 					return moment(fecha).format('DD/MM/YYYY');
 			}
+
+			function borrarAportacion(index){
+				if(confirm(`¿Desea eliminar la aportación de ${paquete.value.aportaciones[index].participante_nombre.trim() || 'Junta directiva'} el cambio no se elimnará en caja?`)){
+					axios.delete(servidor+'aportaciones/'+paquete.value.aportaciones[index].id)
+					.then(response=>{
+						paquete.value.aportaciones.splice(index, 1)
+					})
+				}
+			}
 			
 			return {
 				paquete, bancos, idPaquete, fechaLatam, caja, aportacion, entidades, procesos, addPago, cambiarPaquetes, paquetes,
-				cambiarParticipantes, participantes
+				cambiarParticipantes, participantes, sumaSoles, borrarAportacion
 			}
 		}
 	}).mount('#app')
