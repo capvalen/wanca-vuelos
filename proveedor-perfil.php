@@ -51,7 +51,7 @@
 							<input type="text" class="form-control" autocomplete="off"  v-model="proveedor.contacto">
 						</div>
 						<div class="col-md-4">
-							<label for="">Dato extra</label>
+							<label for="">Dato extra (ruta)</label>
 							<input type="text" class="form-control" autocomplete="off" v-model="proveedor.observaciones">
 						</div>
 					</div>

@@ -9,7 +9,7 @@
 			<?php include 'menu.php'; ?>
 		</section>
 		<section class="col col-md-9 container mb-3 p-4 pt-3 border-start">
-			<?php  $titulo_pagina = "Perfil resulmen del cliente";
+			<?php  $titulo_pagina = "Paquetes";
 			include 'menu_usuario.php'; ?>
 			
 			<div class="card mb-2">
