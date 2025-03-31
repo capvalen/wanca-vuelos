@@ -21,9 +21,6 @@ $pagina = basename($camino, '.php');
 	<a href="liberados.php" type="button" class="list-group-item list-group-item-action <?= in_array($pagina, array('liberados', 'liberado-perfil', 'liberado-nuevo')) ? 'active':'' ?>">
 		<i class="bi bi-caret-right"></i> <span class="icono"><i class="bi bi-people"></i> Liberados</span> 
 	</a>
-	<a href="documentacion.php" type="button" class="list-group-item list-group-item-action">
-		<i class="bi bi-caret-right"></i> <span class="icono"><i class="bi bi-file-earmark-break"></i> Documentación</span> 
-	</a>
 	<a href="boletos.php" type="button" class="list-group-item list-group-item-action">
 		<i class="bi bi-caret-right"></i> <span class="icono"><i class="bi bi-ticket-perforated"></i> Boletos</span> 
 	</a>

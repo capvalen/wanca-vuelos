@@ -46,7 +46,7 @@
 					<label for=""><small>Datos de Contacto</small></label>
 					<div class="row">
 						<div class="col-md-4 ">
-							<label for="">Celular de contacto</label>
+							<label for="">Celular de contacto con Whatsapp</label>
 							<input type="text" class="form-control" autocomplete="off" v-model="participante.celular">
 						</div>
 						<div class="col-md-4 ">
@@ -97,8 +97,45 @@
 				</div>
 			</div>
 
-			<div class="d-flex justify-content-center">
+			<div class="d-flex justify-content-center mb-3">
 				<button class="btn btn-primary btn-lg" @click="actualizar()"><i class="bi bi-arrow-clockwise"></i> Actualizar datos</button>
+			</div>
+
+			<p>Documentación</p>
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>N°</th>
+						<th>Documento</th>
+						<th>Entregado</th>
+						<th>Fecha de entrega</th>
+						<th>Obs.</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="(documento, index) in participante.documentos" :key="documento.id" id="documentos">
+						<td>{{index+1}}</td>
+						<td>{{documento.nombre_documento}}</td>
+						<td>
+							<select class="form-select" id="sltEntregado" v-model="documento.entregado" @change="actualizarDocumento(index)" v-if="![10,11].includes(documento.documento_id)">
+								<option value="0">No entregado</option>
+								<option value="1">Entregado</option>
+							</select>
+						</td>
+						<td>
+							<input type="date" class="form-control" v-model="documento.fecha_entrega" @change="actualizarDocumento(index)" v-if="![10,11].includes(documento.documento_id)">
+						</td>
+						<td>
+							<input type="text" class="form-control" v-model="documento.extra" @change="actualizarDocumento(index)">
+						</td>
+					</tr>
+					<tr v-if="participante.documentos?.length==0">
+						<td colspan="5">No hay documentos</td>
+					</tr>
+				</tbody>
+			</table>
+			<div class="d-flex justify-content-center mb-3">
+				<button class="btn btn-primary btn-lg" ><i class="bi bi-file-earmark"></i> Imprimir constancia</button>
 			</div>
 		</section>
 	</main>
@@ -145,6 +182,14 @@
 				participante.value.fecha_copia_mama = participante.value.copia_mama ==1 ? moment().format('YYYY-MM-DD') : null;
 			}
 
+			function actualizarDocumento(index){
+				delete participante.value.documentos[index].updated_at;
+				axios.put(servidor+'participante-documentos/'+participante.value.documentos[index].id, participante.value.documentos[index])
+				.then(resp=>{
+					//if(resp.data.id) location.reload()
+				})
+			}
+
 			function fechaLatam(fecha){
 				if(fecha)
 					return moment(fecha).format('DD/MM/YYYY');
@@ -152,7 +197,7 @@
 
 			return {
 				participante, idParticipante, actualizar,
-				fechaLatam, actualizarFechaFicha, actualizarFechaAcuerdo, actualizarFechaPapa, actualizarFechaMama
+				fechaLatam, actualizarFechaFicha, actualizarFechaAcuerdo, actualizarFechaPapa, actualizarFechaMama, actualizarDocumento
 			}
 		}
 	}).mount('#app')

@@ -39,7 +39,40 @@
 				<div class="btn btn-outline-success btn-sm mx-1" data-bs-toggle="modal" data-bs-target="#modalActualizar"><i class="bi bi-pencil-square"></i> Editar cliente</div>
 			</div>
 
-			<p>Listado de paquetes asociados</p>
+			<p>Documentación</p>
+			<table class="table table-hover">
+				<thead>
+					<tr>
+						<th>N°</th>
+						<th>Documento</th>
+						<th>Entregado</th>
+						<th>Fecha de entrega</th>
+						<th>Obs.</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr v-for="(documento, index) in cliente.documentos" :key="documento.id" id="documentos">
+						<td>{{index+1}}</td>
+						<td>{{documento.nombre_documento}}</td>
+						<td>
+							<select class="form-select" id="sltEntregado" v-model="documento.entregado" @change="actualizarDocumento(index)" v-if="![10,11].includes(documento.documento_id)">
+								<option value="0">No entregado</option>
+								<option value="1">Entregado</option>
+							</select>
+						</td>
+						<td>
+							<input type="date" class="form-control" v-model="documento.fecha_entrega" @change="actualizarDocumento(index)" v-if="![10,11].includes(documento.documento_id)">
+						</td>
+						<td>
+							<input type="text" class="form-control" v-model="documento.extra" @change="actualizarDocumento(index)">
+						</td>
+					</tr>
+					<tr v-if="cliente.documentos?.length==0">
+						<td colspan="5">No hay documentos</td>
+					</tr>
+				</tbody>
+			</table>
+			<p class="mt-3">Listado de paquetes asociados</p>
 			<table class="table table-hover">
 				<thead>
 					<th>N°</th>
@@ -78,10 +111,11 @@
 								<a href="aportacion-servicio.php?id=36" class="btn btn-sm btn-outline-primary"><i class="bi bi-plus"></i> Aportación</a>
 							</td>
 					</tr>
-			</tbody>
-
+				</tbody>
 			</table>
-
+			<div class="d-flex justify-content-center mb-3">
+				<button class="btn btn-primary btn-lg" ><i class="bi bi-file-earmark"></i> Imprimir constancia</button>
+			</div>
 		</section>
 
 		<section>
@@ -136,8 +170,7 @@
 				axios.get(servidor+'clients/'+idCliente.value)
 				.then(response=>{
 					cliente.value = response.data
-					registro.value = {...response.data}
-				})				
+				})
 			})
 
 			function actualizar(){
@@ -152,15 +185,26 @@
 					return moment(fecha).format('DD/MM/YYYY');
 			}
 
+			function actualizarDocumento(index){
+				delete cliente.value.documentos[index].updated_at;
+				axios.put(servidor+'cliente-documentos/'+cliente.value.documentos[index].id, cliente.value.documentos[index])
+				.then(resp=>{
+					//if(resp.data.id) location.reload()
+				})
+			}
+
 			return {
 				cliente, registro, actualizar, idCliente,
-				fechaLatam
+				fechaLatam, actualizarDocumento
 			}
 		}
 	}).mount('#app')
 </script>
 <style scoped>
 	label{font-weight: bold; color:#323232;}
+	#documentos .form-select, #documentos .form-control{
+		margin-bottom:0px
+	}
 </style>
 </body>
 </html>

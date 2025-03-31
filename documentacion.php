@@ -9,7 +9,7 @@
 			<?php include 'menu.php'; ?>
 		</section>
 		<article class="col col-md-9 container mb-3 p-4 pt-3 border-start">
-			<?php $titulo_pagina = "Sección Clientes";
+			<?php $titulo_pagina = "Documentación de Clientes";
 			include 'menu_usuario.php'; ?>
 			
 			<div class="card mb-2">
@@ -28,7 +28,7 @@
 			</div>
 			<div class="d-flex justify-content-between">
 				<div class="gap-2">
-					<a href="cliente-nuevo.php" class="btn btn-sm btn-outline-success me-1"><i class="bi bi-person-circle"></i> Nuevo cliente</a>
+					
 				</div>
 				<button class="btn btn-sm btn-outline-secondary" @click="buscarCliente()"><i class="bi bi-search"></i> Filtrar</button>
 			</div>
@@ -48,8 +48,7 @@
 							<td>{{cliente.ruc}}</td>
 							<td><a :href="'cliente-perfil.php?id='+cliente.id" class="text-decoration-none">{{cliente.razon}}</a></td>
 							<td>
-								<a :href="'cliente-paquete-nuevo.php?id='+cliente.id" class="btn btn-sm btn-outline-success me-1"><i class="bi bi-asterisk"></i> Nuevo paquete</a>
-								<button class="btn btn-outline-danger me-1" @click="eliminar(index, cliente.id)" title="Eliminar"><i class="bi bi-eraser"></i></button>
+								<a :href="'cliente-documentacion.php?id='+cliente.id" class="btn btn-sm btn-outline-success me-1"><i class="bi bi-file-earmark"></i> Ver documentación</a>
 							</td>
 						</tr>
 					</tbody>
