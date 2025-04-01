@@ -108,7 +108,7 @@
 							<td>{{paquete.participantes.length}}</td>
 							<td>{{paquete.liberados.length}}</td>
 							<td>
-								<a href="aportacion-servicio.php?id=36" class="btn btn-sm btn-outline-primary"><i class="bi bi-plus"></i> Aportación</a>
+								<a :href="'aportacion-perfil.php?id='+paquete.id" class="btn btn-sm btn-outline-primary"><i class="bi bi-plus"></i> Aportación</a>
 							</td>
 					</tr>
 				</tbody>

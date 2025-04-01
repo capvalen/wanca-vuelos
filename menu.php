@@ -42,7 +42,7 @@ $pagina = basename($camino, '.php');
 	<a href="configuraciones.php" type="button" class="list-group-item list-group-item-action">
 		<i class="bi bi-caret-right"></i> <span class="icono"><i class="bi bi-gear-fill"></i> Configuraciones</span> 
 	</a>
-	<a href="perfil.php" type="button" class="list-group-item list-group-item-action">
+	<a href="usuario-perfil.php" type="button" class="list-group-item list-group-item-action <?= in_array($pagina, array('usuario-perfil')) ? 'active':'' ?>">
 		<i class="bi bi-caret-right"></i> <span class="icono"><i class="bi bi-gear-fill"></i> Mi perfil</span> 
 	</a>
 </div>

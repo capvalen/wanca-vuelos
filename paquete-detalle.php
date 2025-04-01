@@ -186,6 +186,8 @@
 									<th>Proveedor</th>
 									<th>Servicio</th>
 									<th>Concepto</th>
+									<th>Fecha inicio</th>
+									<th>Fecha final</th>
 									<th>@</th>
 								</thead>
 								<tbody>
@@ -195,11 +197,17 @@
 										<td>{{proveedor.servicio_nombre}}</td>
 										<td>{{proveedor.concepto_nombre}}</td>
 										<td>
+											<input type="date" class="form-control" v-model="proveedor.fecha_inicio" @change="actualizarFechaProveedor(index)">
+										</td>
+										<td>
+											<input type="date" class="form-control" v-model="proveedor.fecha_final" @change="actualizarFechaProveedor(index)">
+										</td>
+										<td>
 											<button class="btn btn-outline-danger btn-sm" @click="eliminarProveedor(index)"><i class="bi bi-x"></i></button>
 										</td>
 									</tr>
 									<tr v-if="paquete.proveedores.length==0">
-										<td colspan="5">No hay proveedores registrados</td>
+										<td colspan="7">No hay proveedores registrados</td>
 									</tr>
 								</tbody>
 							</table>
@@ -556,13 +564,20 @@
 				})
 			}
 
+			function actualizarFechaProveedor(index){
+				axios.put(servidor+'paquete-proveedor/'+paquete.value.proveedores[index].id, paquete.value.proveedores[index])
+				.then(resp=>{
+					console.log(resp.data)
+				})
+			}
+
 			function fechaLatam(fecha){
 				if(fecha)
 					return moment(fecha).format('DD/MM/YYYY');
 			}
 
 			return {
-				paquete,fechaLatam, registroCuota, guardarCuota, eliminarCuota, registroViaje, guardarViaje, busqueda, participantes, buscarParticipante, busqueda, agregarParticipante, buscarProveedor, agregarProveedor, proveedores, eliminarProveedor, eliminarViajes, eliminarParticipantes, buscarLiberado, liberados, agregarLiberado, eliminarLiberados, destinos, actualizarPaquete
+				paquete,fechaLatam, registroCuota, guardarCuota, eliminarCuota, registroViaje, guardarViaje, busqueda, participantes, buscarParticipante, busqueda, agregarParticipante, buscarProveedor, agregarProveedor, proveedores, eliminarProveedor, eliminarViajes, eliminarParticipantes, buscarLiberado, liberados, agregarLiberado, eliminarLiberados, destinos, actualizarPaquete, actualizarFechaProveedor
 			}
 		}
 	}).mount('#app')

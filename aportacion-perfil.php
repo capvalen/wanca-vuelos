@@ -267,7 +267,7 @@
 				
 				axios.get(servidor+'clients').then(response=> entidades.value = response.data.sort((a, b) => a.razon.localeCompare(b.razon)) )
 				axios.get(servidor+'bancos').then(response=> bancos.value = response.data.sort((a, b) => a.entidad.localeCompare(b.entidad)) )
-				axios.get(servidor+'procesos').then(response=> procesos.value = response.data.sort((a, b) => a.descripcion_larga.localeCompare(b.descripcion_larga)))
+				axios.get(servidor+'aportacion/sumas').then(response=> procesos.value = response.data.sort((a, b) => a.descripcion_larga.localeCompare(b.descripcion_larga)))
 				axios.get(servidor+'ultimaCaja').then(response=>{
 					caja.value = response.data
 					if(caja.value.estado=='abierta') aportacion.value.caja_id= caja.value.id
